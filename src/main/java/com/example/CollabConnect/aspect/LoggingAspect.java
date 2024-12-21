@@ -2,10 +2,7 @@ package com.example.CollabConnect.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -36,5 +33,10 @@ public class LoggingAspect {
                 ": " + elapsedTime + " ms");
 
         return result;
+    }
+
+    @AfterThrowing(pointcut = "execution(* com.example.CollabConnect.service.*.*(..))", throwing = "ex")
+    public void logException(Throwable ex) {
+        System.err.println("Exception occurred: " + ex.getMessage());
     }
 }

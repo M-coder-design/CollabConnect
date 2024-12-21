@@ -18,7 +18,14 @@ public class CollabConnectApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		userService.createUser();
-		userService.deleteUser();
+//		userService.createUser();
+//		userService.deleteUser();
+		try{
+			userService.deleteUserException();
+		}catch (Exception e)
+		{
+
+		}
+
 	}
 }

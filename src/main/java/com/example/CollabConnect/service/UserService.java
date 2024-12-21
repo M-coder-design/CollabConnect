@@ -14,4 +14,9 @@ public class UserService {
         Thread.sleep(300); // Simulating a delay
         System.out.println("Deleting a user...");
     }
+
+    public void deleteUserException() {
+        System.out.println("Deleting a user...");
+        throw new RuntimeException("User not found!");
+    }
 }
