@@ -1,6 +1,7 @@
 package com.example.CollabConnect;
 
 import com.example.CollabConnect.entity.postgres.PostgresUser;
+import com.example.CollabConnect.service.ChatPublisher;
 import com.example.CollabConnect.service.PostgresUserService;
 import com.example.CollabConnect.service.RedisService;
 import com.example.CollabConnect.service.UserService;
@@ -17,11 +18,14 @@ public class CollabConnectApplication implements CommandLineRunner {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private RedisService redisService;
+//	@Autowired
+//	private RedisService redisService;
+//
+//	@Autowired
+//	private PostgresUserService postgresUserService;
 
 	@Autowired
-	private PostgresUserService postgresUserService;
+	private ChatPublisher chatPublisher;
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(CollabConnectApplication.class, args);
@@ -29,14 +33,7 @@ public class CollabConnectApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-//		redisService.saveToCache("username", "john_doe");
-//		redisService.getFromCache("username");
-		// Simulate database query
-		PostgresUser user1 = postgresUserService.getUserById(1L);
-		System.out.println("First Query: " + user1.getName());
-
-		// Simulate cache hit
-		PostgresUser user2 = postgresUserService.getUserById(1L);
-		System.out.println("Second Query: " + user2.getName());
+		chatPublisher.publish("Hello, this is a test message!");
+		chatPublisher.publish("Real-time chat with Redis is working!");
 	}
 }
