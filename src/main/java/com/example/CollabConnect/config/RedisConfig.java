@@ -37,25 +37,33 @@ public class RedisConfig {
         return template;
     }
 
+
+    @Bean
+    public MessageListenerAdapter messageListenerAdapter(ChatSubscriber chatSubscriber)
+    {
+        return new MessageListenerAdapter(chatSubscriber,"handleMessage");
+    }
+
+
+    @Bean
+    public ChannelTopic topic(){
+        return new ChannelTopic("chat");
+    }
+
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(
-            RedisConnectionFactory redisConnectionFactory)
+            RedisConnectionFactory redisConnectionFactory,
+            MessageListenerAdapter messageListenerAdapter,
+            ChannelTopic channelTopic
+    )
     {
         RedisMessageListenerContainer container =
                 new RedisMessageListenerContainer();
 
         container.setConnectionFactory(redisConnectionFactory);
+
+        // Add the message listener and topic to the container
+        container.addMessageListener(messageListenerAdapter, channelTopic);
         return container;
-    }
-
-    @Bean
-    public MessageListenerAdapter messageListenerAdapter()
-    {
-        return new MessageListenerAdapter(new ChatSubscriber());
-    }
-
-    @Bean
-    public ChannelTopic topic(){
-        return new ChannelTopic("chat");
     }
 }
