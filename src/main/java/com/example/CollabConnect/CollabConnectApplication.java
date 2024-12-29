@@ -33,7 +33,8 @@ public class CollabConnectApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		chatPublisher.publish("Hello, this is a test message!");
-		chatPublisher.publish("Real-time chat with Redis is working!");
+		chatPublisher.publish("Alice", "Hello, everyone!");
+		chatPublisher.publish("Bob", "Hi Alice, how are you?");
+		chatPublisher.publish("Alice", "I'm good, thanks! How about you?");
 	}
 }
