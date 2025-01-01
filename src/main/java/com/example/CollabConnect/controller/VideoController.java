@@ -1,5 +1,7 @@
 package com.example.CollabConnect.controller;
 
+import com.example.CollabConnect.entity.postgres.VideoMetadata;
+import com.example.CollabConnect.repository.postgres.VideoMetadataRepository;
 import com.example.CollabConnect.service.VideoStorageService;
 import com.example.CollabConnect.service.VideoStreamingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class VideoController {
     @Autowired
     private VideoStreamingService videoStreamingService;
 
+    @Autowired
+    private VideoMetadataRepository videoMetadataRepository;
+
     @PostMapping("/upload")
     private String uploadVideo(@RequestParam("file") MultipartFile videoFile) throws IOException
     {
@@ -34,5 +39,11 @@ public class VideoController {
             ) throws IOException{
         HttpRange range = httpHeaders.getRange().isEmpty() ? HttpRange.createByteRange(0) : httpHeaders.getRange().get(0);
         return videoStreamingService.streamVideo(filename, range);
+    }
+
+    @GetMapping("/metadata/{filename}")
+    public VideoMetadata getVideoMetadata(@PathVariable String filename) {
+        System.out.println("KKKKKKKKKKKKKKKKKKKKKKKKK   " + videoMetadataRepository.findByFilename(filename));
+        return videoMetadataRepository.findByFilename(filename);
     }
 }
